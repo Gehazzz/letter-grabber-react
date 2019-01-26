@@ -21,7 +21,6 @@ public class LetterSenderImpl implements LetterSender {
        /* letter.doOnEach(signal -> {
             System.out.println(signal);
         }).subscribe();*/
-
         webClient.post().uri("/analyse/letter")
                 .contentType(MediaType.APPLICATION_STREAM_JSON)
                 .body(letter, Letter.class)

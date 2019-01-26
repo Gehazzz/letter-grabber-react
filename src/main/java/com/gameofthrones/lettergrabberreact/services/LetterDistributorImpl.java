@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 
 @RequiredArgsConstructor
@@ -31,6 +32,19 @@ public class LetterDistributorImpl implements LetterDistributor {
             }
         }).share();
         sender.send(letters);
+    }
+
+    @SneakyThrows
+    @Override
+    public void distribute2() {
+        Flux.<Letter>generate(fluxSink -> {
+                sleep(this.delay);
+                fluxSink.next(producer.getLetter());
+        }).share().parallel().runOn(Schedulers.parallel()).groups().doOnNext(integerLetterGroupedFlux -> {
+            Flux<Letter> pLetters = integerLetterGroupedFlux.share();
+            sender.send(pLetters);
+            System.out.println(Thread.currentThread().toString());
+        }).subscribe();
     }
 
     @Override
