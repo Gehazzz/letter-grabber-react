@@ -15,9 +15,7 @@ import reactor.core.scheduler.Schedulers;
 @Slf4j
 public class LetterSenderImpl implements LetterSender {
 
-    private final WebClient webClient = WebClient.builder()
-            .baseUrl("http://localhost:8081")
-            .build();
+    private final WebClient webClient;
 
     public void send(Flux<Letter> letter) {
        /* letter.doOnEach(signal -> {
