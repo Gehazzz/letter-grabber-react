@@ -4,6 +4,7 @@ import com.gameofthrones.lettergrabberreact.model.Letter;
 import com.gameofthrones.lettergrabberreact.producer.LetterProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -14,6 +15,7 @@ import reactor.core.scheduler.Schedulers;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class LetterDistributorImpl implements LetterDistributor {
     private final LetterProducer producer;
     private final LetterSender sender;
@@ -43,7 +45,7 @@ public class LetterDistributorImpl implements LetterDistributor {
         }).share().parallel().runOn(Schedulers.parallel()).groups().doOnNext(integerLetterGroupedFlux -> {
             Flux<Letter> pLetters = integerLetterGroupedFlux.share();
             sender.send(pLetters);
-            System.out.println(Thread.currentThread().toString());
+            log.info(Thread.currentThread().toString());
         }).subscribe();
     }
 
