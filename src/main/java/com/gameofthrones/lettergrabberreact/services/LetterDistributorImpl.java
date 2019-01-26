@@ -42,7 +42,7 @@ public class LetterDistributorImpl implements LetterDistributor {
         Flux.<Letter>generate(fluxSink -> {
                 sleep(this.delay);
                 fluxSink.next(producer.getLetter());
-        }).share().parallel().runOn(Schedulers.parallel()).groups().doOnNext(integerLetterGroupedFlux -> {
+        }).parallel().runOn(Schedulers.parallel()).groups().doOnNext(integerLetterGroupedFlux -> {
             Flux<Letter> pLetters = integerLetterGroupedFlux.share();
             sender.send(pLetters);
             log.info(Thread.currentThread().toString());

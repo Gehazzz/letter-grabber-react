@@ -14,7 +14,7 @@ public class LetterGrabberReactApplication {
     {
         ConfigurableApplicationContext context = SpringApplication.run(LetterGrabberReactApplication.class, args);
         LetterDistributor distributor = context.getBean(LetterDistributor.class);
-        distributor.distribute();
+        distributor.distribute2();
     }
 
 }
