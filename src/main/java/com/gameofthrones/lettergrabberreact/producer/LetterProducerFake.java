@@ -9,6 +9,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class LetterProducerFake implements LetterProducer {
@@ -30,7 +32,7 @@ public class LetterProducerFake implements LetterProducer {
     }
 
     private Letter randomLetter(){
-        return Letter.builder().content(faker.quote()).location(faker.city()).signature(faker.character()).build();
+        return Letter.builder().id(UUID.randomUUID().toString()).content(faker.quote()).location(faker.city()).signature(faker.character()).build();
     }
 
 

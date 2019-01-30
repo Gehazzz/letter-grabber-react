@@ -25,15 +25,16 @@ public class LetterDistributorImpl implements LetterDistributor {
     @SneakyThrows
     @Override
     public void distribute() {
-        Flux<Letter> letters = Flux.<Letter>create(fluxSink -> {
+     /* Flux<Letter> letters = */Flux.<Letter>push(fluxSink -> {
             int i = 0;
             while (true){
                 i++;
                 sleep(this.delay);
                 fluxSink.next(producer.getLetter());
             }
-        }).share();
-        sender.send(letters);
+        }).window(1).doOnNext(letterFlux -> sender.send(letterFlux.share())).subscribe();
+
+        //sender.send(letters);
     }
 
     @SneakyThrows

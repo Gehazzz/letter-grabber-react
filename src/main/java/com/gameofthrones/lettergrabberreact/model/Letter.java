@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Letter {
+    private String id;
     private String content;
     private String signature;
     private String location;

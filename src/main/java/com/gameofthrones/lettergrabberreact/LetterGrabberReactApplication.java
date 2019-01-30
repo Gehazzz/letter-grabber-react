@@ -14,7 +14,8 @@ public class LetterGrabberReactApplication {
     {
         ConfigurableApplicationContext context = SpringApplication.run(LetterGrabberReactApplication.class, args);
         LetterDistributor distributor = context.getBean(LetterDistributor.class);
-        distributor.distribute2();
+        distributor.distribute();
+        //Stream.generate(() -> (Runnable) distributor::distribute).limit(800).forEach(runnable -> new Thread(runnable).start());
     }
 
 }
